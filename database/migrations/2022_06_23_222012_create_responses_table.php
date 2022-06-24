@@ -21,6 +21,9 @@ return new class extends Migration
             $table->unsignedBigInteger('alternative_id')->nullable(false);
             $table->foreign('alternative_id')->references('id')->on('alternatives');
 
+            $table->unsignedBigInteger('user_id')->nullable(false);
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->unsignedBigInteger('father_id')->nullable(true);
             $table->foreign('father_id')->references('id')->on('responses');
         });

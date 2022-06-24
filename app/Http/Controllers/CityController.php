@@ -2,31 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Alternative as Alternative;
+use Illuminate\Http\Response;
+use App\Http\Resources\CityResource;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use App\Http\Resources\AlternativeResource;
+use App\Models\City;
 
-class AlternativeController extends Controller
+class CityController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return AlternativeResource::collection(Alternative::paginate(30));
-    }
+        $query = City::query();
+        if ($request->has('name')) {
+            $query->where('name', 'LIKE', '%' . $request->name . '%');
+        }
+        $cities = $query->paginate(25);
 
-    /**  
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $cities;
+
+        // return CityResource::collection(City::paginate(25));
     }
 
     /**
@@ -37,15 +37,15 @@ class AlternativeController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $alternative = new Alternative;
-            $alternative->fill($request->validated())->save();
+        // try {
+        //     $City = new City;
+        //     $City->fill($request->validated())->save();
 
-            return new AlternativeResource($alternative);
+        //     return new CityResource($City);
 
-        } catch(\Exception $exception) {
-            throw new HttpException(400, "Invalid data - {$exception->getMessage}");
-        }
+        // } catch(\Exception $exception) {
+        //     throw new HttpException(400, "Invalid data - {$exception->getMessage}");
+        // }
     }
 
     /**
@@ -56,19 +56,9 @@ class AlternativeController extends Controller
      */
     public function show($id)
     {
-        $alternatives = Alternative::findOrFail($id);
-        return new AlternativeResource($alternatives);
-    }
+        // $City = City::findOrfail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        // return new CityResource($City);
     }
 
     /**
@@ -85,10 +75,10 @@ class AlternativeController extends Controller
         // }
 
         // try {
-        //    $book = Book::find($id);
-        //    $book->fill($request->validated())->save();
+        //    $City = City::find($id);
+        //    $City->fill($request->validated())->save();
 
-        //    return new BookResource($book);
+        //    return new CityResource($City);
 
         // } catch(\Exception $exception) {
         //    throw new HttpException(400, "Invalid data - {$exception->getMessage}");
@@ -103,6 +93,9 @@ class AlternativeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // $City = City::findOrfail($id);
+        // $City->delete();
+
+        // return response()->json(null, 204);
     }
 }

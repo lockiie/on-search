@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('description')->nullable(false)->change();
-            $table->boolean('status')->nullable(false)->change();
+            $table->string('description')->nullable(false);
         });
     }
 
