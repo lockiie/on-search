@@ -24,8 +24,8 @@ class UserResource extends JsonResource
             'number' => $this->number,
             'type' => $this->type,
             'city_id' => $this->city_id,
-            'city_name' => $this->city_name,
-            'uf' => $this->uf,
+            // 'city_name' => $this->city_name,
+            // 'uf' => $this->uf,
         ];
     }
 }

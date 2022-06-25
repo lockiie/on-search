@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User as User;
-use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserResource;
+use App\Http\Requests\UserRequest;
+use Exception;
+use Illuminate\Http\Response;
 
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserController extends Controller
 {
@@ -14,9 +18,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = User::query();
+        if ($request->has('email')) {
+            $query->where('email', '=',  $request->email );
+        }
+        $users = $query->paginate(25);
+
+        return $users;
     }
 
     /**
@@ -24,10 +34,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -35,9 +45,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        try {
+            $user = new User;
+            $user->fill($request->validated());
+            $user->save();
+            return new UserResource($user);
+
+        } catch(\Exception $exception) {
+            throw new HttpException(400, "Invalid data - {$exception->getMessage}");
+        }
     }
 
     /**
@@ -48,7 +66,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrfail($id);
+
+        return new UserResource($user);
     }
 
     /**
@@ -57,10 +77,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -71,7 +91,19 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!$id) {
+            throw new HttpException(400, "Invalid id");
+        }
+
+        try {
+           $user = User::find($id);
+           $user->fill($request->validated())->save();
+
+           return new UserResource($user);
+
+        } catch(\Exception $exception) {
+           throw new HttpException(400, "Invalid data - {$exception->getMessage}");
+        }
     }
 
     /**
@@ -82,6 +114,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrfail($id);
+        $user->delete();
+
+        return response()->json(null, 204);
     }
 }
