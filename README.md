@@ -21,7 +21,6 @@ php artisan serve
 ### Commands to get database and migrations / seeds setup
 
 ```shell
-mysql> CREATE DATABASE `books-api` /*!40100 COLLATE 'utf8_general_ci' */;
 php artisan migrate:install
 php artisan make:migration create_books_table
 php artisan make:seeder BooksTableSeeder
