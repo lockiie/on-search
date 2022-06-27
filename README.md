@@ -18,7 +18,7 @@ Rodar o SQL com o nome sql.SQL
 
 ### API Endpoint
 
-http://localhost:8000/api/v1/books
+http://localhost:8000/api
 
 ```shell
 Cidades
