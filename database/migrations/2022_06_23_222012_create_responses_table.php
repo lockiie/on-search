@@ -26,6 +26,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('father_id')->nullable(true);
             $table->foreign('father_id')->references('id')->on('responses');
+
+            $table->unique(["alternative_id", "user_id"], 'response_user_alternative_uk');
         });
     }
 

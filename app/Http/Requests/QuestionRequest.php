@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Books;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookRequest extends FormRequest
+class QuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,7 @@ class BookRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'price' => 'required',
-            'author' => 'required',
-            'editor' => 'required',
+            'description' => 'required',
         ];
     }
 
@@ -39,10 +36,7 @@ class BookRequest extends FormRequest
     public function messages()
     {
         return [
-            'title.required' => 'Please fill the title.',
-            'price.required' => 'Please fill the price.',
-            'author.required' => 'Please fill the author.',
-            'editor.required' => 'Please fill the editor.',
+            'description.required' => 'Informe a descrição da pergunta.',
         ];
     }
 

@@ -21,8 +21,8 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $query = User::query();
-        if ($request->has('email')) {
-            $query->where('email', '=',  $request->email );
+        if ($request->filled('email')) {
+            $query->where('email', $request->email);
         }
         $users = $query->paginate(25);
 
@@ -53,8 +53,12 @@ class UserController extends Controller
             $user->save();
             return new UserResource($user);
 
-        } catch(\Exception $exception) {
-            throw new HttpException(400, "Invalid data - {$exception->getMessage}");
+        } catch (\Exception $exception) {
+            if (var_dump(property_exists($exception, "getMessage"))){
+                throw new HttpException(400, "Dados inválidos- {$exception->getMessage}"); 
+            }else{
+                throw new HttpException(400, "Dados inválidos- {$exception}");
+            }
         }
     }
 
@@ -89,20 +93,23 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
         if (!$id) {
-            throw new HttpException(400, "Invalid id");
+            throw new HttpException(400, "ID inválido");
         }
-
+        $user = User::findOrfail($id);
         try {
-           $user = User::find($id);
            $user->fill($request->validated())->save();
 
            return new UserResource($user);
 
-        } catch(\Exception $exception) {
-           throw new HttpException(400, "Invalid data - {$exception->getMessage}");
+        } catch (\Exception $exception) {
+            if (var_dump(property_exists($exception, "getMessage"))){
+                throw new HttpException(400, "Dados inválidos- {$exception->getMessage}"); 
+            }else{
+                throw new HttpException(400, "Dados inválidos- {$exception}");
+            }
         }
     }
 

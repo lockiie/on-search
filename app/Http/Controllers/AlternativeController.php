@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Alternative as Alternative;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Http\Resources\AlternativeResource;
+use App\Http\Requests\AlternativeRequest;
+use Exception;
+use Illuminate\Http\Response;
+use App\Models\Response as ResponseModel;
+
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AlternativeController extends Controller
 {
@@ -14,20 +19,35 @@ class AlternativeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return AlternativeResource::collection(Alternative::paginate(30));
+        $query = Alternative::query();
+        if ($request->has('question_id')) {
+            $query->where('question_id', '=',  $request->question_id);
+        }else{
+            return response()->json("ID da pergunta é requerido", 400);
+        }
+        // $query.with('responses')->whereRelation('responses', 'name', 'like', '%'.$name.'%');
+        $alternatives = $query->get('*')->toArray();
+
+
+
+
+        // $responses = ResponseModel::query();
+        // $responses->whereRelation()
+
+        return $alternatives;
     }
 
-    /**  
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -35,16 +55,19 @@ class AlternativeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AlternativeRequest $request)
     {
         try {
             $alternative = new Alternative;
-            $alternative->fill($request->validated())->save();
-
+            $alternative->fill($request->validated());
+            $alternative->save();
             return new AlternativeResource($alternative);
-
-        } catch(\Exception $exception) {
-            throw new HttpException(400, "Invalid data - {$exception->getMessage}");
+        } catch (\Exception $exception) {
+            if (var_dump(property_exists($exception, "getMessage"))){
+                throw new HttpException(400, "Dados inválidos- {$exception->getMessage}"); 
+            }else{
+                throw new HttpException(400, "Dados inválidos- {$exception}");
+            }
         }
     }
 
@@ -56,8 +79,9 @@ class AlternativeController extends Controller
      */
     public function show($id)
     {
-        $alternatives = Alternative::findOrFail($id);
-        return new AlternativeResource($alternatives);
+        $alternative = Alternative::findOrfail($id);
+
+        return new AlternativeResource($alternative);
     }
 
     /**
@@ -66,10 +90,10 @@ class AlternativeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -78,21 +102,19 @@ class AlternativeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AlternativeRequest $request, $id)
     {
-        // if (!$id) {
-        //     throw new HttpException(400, "Invalid id");
-        // }
+        if (!$id) {
+            throw new HttpException(400, "ID inválido");
+        }
+        $question = Alternative::findOrFail($id);
+        try {
+            $question->fill($request->validated())->save();
 
-        // try {
-        //    $book = Book::find($id);
-        //    $book->fill($request->validated())->save();
-
-        //    return new BookResource($book);
-
-        // } catch(\Exception $exception) {
-        //    throw new HttpException(400, "Invalid data - {$exception->getMessage}");
-        // }
+            return new AlternativeResource($question);
+        } catch (\Exception $exception) {
+            throw new HttpException(400, "Dados inválidos- {$exception->getMessage}");
+        }
     }
 
     /**
@@ -103,6 +125,9 @@ class AlternativeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $alternative = Alternative::findOrfail($id);
+        $alternative->delete();
+
+        return response()->json(null, 204);
     }
 }

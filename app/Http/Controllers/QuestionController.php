@@ -4,7 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Question as Question;
-use App\Http\Resources\Question as QuestionResource;
+use App\Http\Resources\QuestionResource;
+use App\Http\Requests\QuestionRequest;
+use App\Models\Response as ResponseModel;
+use Exception;
+use Illuminate\Http\Response;
+
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class QuestionController extends Controller
 {
@@ -13,9 +19,25 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = Question::query();
+
+
+        // if ($request->has('email')) {
+        //     $query->where('email', '=',  $request->email);
+        // }
+        $questions = $query->paginate(25);
+
+        // $questions->foreach()
+        // foreach ($questions as $question) {
+        //     $responses = ResponseModel::query();
+        //     $responses->where()
+        // }
+
+
+
+        return $questions;
     }
 
     /**
@@ -23,10 +45,10 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+    // public function create()
+    // {
+    //     //
+    // }
 
     /**
      * Store a newly created resource in storage.
@@ -34,9 +56,20 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(QuestionRequest $request)
     {
-        //
+        try {
+            $question = new Question;
+            $question->fill($request->validated());
+            $question->save();
+            return new QuestionResource($question);
+        } catch (\Exception $exception) {
+            if (var_dump(property_exists($exception, "getMessage"))){
+                throw new HttpException(400, "Dados inválidos- {$exception->getMessage}"); 
+            }else{
+                throw new HttpException(400, "Dados inválidos- {$exception}");
+            }
+        }
     }
 
     /**
@@ -47,7 +80,9 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        $question = Question::findOrfail($id);
+
+        return new QuestionResource($question);
     }
 
     /**
@@ -56,10 +91,10 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+    // public function edit($id)
+    // {
+    //     //
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -68,9 +103,23 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(QuestionRequest $request, $id)
     {
-        //
+        if (!$id) {
+            throw new HttpException(400, "ID inválido");
+        }
+        $question = Question::findOrFail($id);
+        try {
+            $question->fill($request->validated())->save();
+
+            return new QuestionResource($question);
+        } catch (\Exception $exception) {
+            if (var_dump(property_exists($exception, "getMessage"))){
+                throw new HttpException(400, "Dados inválidos- {$exception->getMessage}"); 
+            }else{
+                throw new HttpException(400, "Dados inválidos- {$exception}");
+            }
+        }
     }
 
     /**
@@ -81,6 +130,9 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $question = Question::findOrfail($id);
+        $question->delete();
+
+        return response()->json(null, 204);
     }
 }
