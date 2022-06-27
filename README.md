@@ -18,7 +18,7 @@ php artisan key:generate
 php artisan serve
 ```
 
-### Commands to get database and migrations / seeds setup
+### Comandos para iniciar o projeto
 
 ```shell
 php artisan migrate:install
