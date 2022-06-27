@@ -2,20 +2,16 @@
 
 API para o hackathon
 
-### Inicialização
-
-```shell
-Criar esquema no banco de dados chamado hackathon3
-Rodar o SQL com o nome sql.SQL
-```
-
-### SCRIPTS de configuração
+### SCRIPTS de inicialização
 
 ```shell
 composer install
 php artisan migrate
 php artisan key:generate
 php artisan serve
+
+Criar esquema no banco de dados chamado hackathon3
+Rodar o SQL com o nome sql.SQL
 ```
 
 ### API Endpoint
