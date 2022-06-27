@@ -18,19 +18,6 @@ php artisan key:generate
 php artisan serve
 ```
 
-### Comandos para iniciar o projeto
-
-```shell
-php artisan migrate:install
-php artisan make:migration create_books_table
-php artisan make:seeder BooksTableSeeder
-php artisan make:seeder InvoicesTableSeeder
-php artisan migrate
-php artisan db:seed --class=BooksTableSeeder
-php artisan db:seed --class=InvoicesTableSeeder
-php artisan migrate:refresh --seed
-```
-
 ### API Endpoint
 
 http://localhost:8000/api/v1/books
