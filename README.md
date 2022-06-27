@@ -22,7 +22,7 @@ http://localhost:8000/api
 
 ```shell
 Cidades
-GET http://localhost:8000/api/cities
+GET http://localhost:8000/api/cities?name
 
 Usuários
 POST http://localhost:8000/api/users
