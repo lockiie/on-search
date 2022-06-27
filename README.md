@@ -18,13 +18,6 @@ php artisan key:generate
 php artisan serve
 ```
 
-### Create Laravel 5 project with the following command:
-
-```shell
-composer create-project laravel/laravel ~/projects/github/bitclaw/laravel-books-api
-php artisan ide-helper:generate
-```
-
 ### Commands to get database and migrations / seeds setup
 
 ```shell
