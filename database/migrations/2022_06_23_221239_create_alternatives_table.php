@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('alternatives', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            // $table->timestamps();
             $table->string('description')->nullable(false);
-            $table->unsignedBigInteger('question_id')->nullable(false);
-            $table->foreign('question_id')->references('id')->on('questions');
+            // $table->unsignedBigInteger('question_id')->nullable(false);
+            // $table->foreign('question_id')->references('id')->on('questions');
         });
     }
 

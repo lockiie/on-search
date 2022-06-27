@@ -24,24 +24,18 @@ class ResponseController extends Controller
         $query->select('alternatives.description as alternative', 'user_id', 'users.name as user', 'comment', 
                        'alternative_id', 'responses.id');
         if ($request->has('question_id')) {
-            $query->where('question_id', '=',  $request->question_id);
+            $query->where('question_id', '=', $request->question_id);
         } else {
             return response()->json("ID da pergunta é requerido", 400);
         }
+        if ($request->has('user_id')) {
+            $query->where('user_id', '=', $request->user_id);
+            
+        } 
 
         $query->join('alternatives', 'alternative_id', 'alternatives.id');
         $query->join('users', 'user_id', 'users.id');
-        if ($request->has('user_id')) {
-            $query->where('user_id', '=',  $request->user_id);
-        } 
 
-        // $query = ResponseModel::query()->join('users', 'user_id', '=', 'users.id')
-        // ->join('alternatives', 'alternative_id', '=', 'alternatives.id');
-        // if ($request->has('question_id')) {
-        //     $query->where('question_id', '=',  $request->question_id);
-        // }else{
-        //     return response()->json("ID da pergunta é requerido", 400);
-        // }
         $responses = $query->get();
 
         return $responses;

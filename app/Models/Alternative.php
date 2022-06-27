@@ -10,6 +10,6 @@ class Alternative extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id','description', 'question_id',
+        'id','description',
     ];
 }

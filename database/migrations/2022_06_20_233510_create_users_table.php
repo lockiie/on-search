@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('address')->nullable(false);
             $table->string('neighborhood')->nullable(false);
             $table->string('number')->nullable(false);
-            $table->integer('type')->nullable(false);
+            // $table->integer('type')->nullable(false);
         
             $table->rememberToken();
             $table->timestamps();

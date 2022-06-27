@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
             'address' => 'required',
             'neighborhood' => 'required',
             'number' => 'required',
-            'type' => 'required',
+            // 'type' => 'required',
             'city_id' => 'required',
         ];
     }
@@ -51,7 +51,7 @@ class UserRequest extends FormRequest
             'address.required' => 'Informe o endereço.',
             'neighborhood.required' => 'Informe o bairo.',
             'number.required' => 'Informe o número da casa.',
-            'type.required' => 'Informe o tipo do usuário.',
+            // 'type.required' => 'Informe o tipo do usuário.',
             'city_id.required' => 'Informe a cidade.',
         ];
     }

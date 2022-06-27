@@ -33,11 +33,11 @@ Route::delete('/questions/{id}', [QuestionController::class, 'destroy']);
 Route::get('/questions', [QuestionController::class, 'index']);
 Route::get('/questions/{id}', [QuestionController::class, 'show']);
 
-Route::post('/alternatives', [AlternativeController::class, 'store']);
-Route::put('/alternatives/{id}', [AlternativeController::class, 'update']);
-Route::delete('/alternatives/{id}', [AlternativeController::class, 'destroy']);
+// Route::post('/alternatives', [AlternativeController::class, 'store']);
+// Route::put('/alternatives/{id}', [AlternativeController::class, 'update']);
+// Route::delete('/alternatives/{id}', [AlternativeController::class, 'destroy']);
 Route::get('/alternatives', [AlternativeController::class, 'index']);
-Route::get('/alternatives/{id}', [AlternativeController::class, 'show']);
+// Route::get('/alternatives/{id}', [AlternativeController::class, 'show']);
 
 Route::post('/responses', [ResponseController::class, 'store']);
 Route::put('/responses/{id}', [ResponseController::class, 'update']);

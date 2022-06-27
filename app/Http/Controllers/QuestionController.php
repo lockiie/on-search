@@ -27,7 +27,7 @@ class QuestionController extends Controller
         // if ($request->has('email')) {
         //     $query->where('email', '=',  $request->email);
         // }
-        $questions = $query->paginate(25);
+        $questions = $query->get();
 
         // $questions->foreach()
         // foreach ($questions as $question) {

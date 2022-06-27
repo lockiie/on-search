@@ -22,19 +22,7 @@ class AlternativeController extends Controller
     public function index(Request $request)
     {
         $query = Alternative::query();
-        if ($request->has('question_id')) {
-            $query->where('question_id', '=',  $request->question_id);
-        }else{
-            return response()->json("ID da pergunta é requerido", 400);
-        }
-        // $query.with('responses')->whereRelation('responses', 'name', 'like', '%'.$name.'%');
-        $alternatives = $query->get('*')->toArray();
-
-
-
-
-        // $responses = ResponseModel::query();
-        // $responses->whereRelation()
+        $alternatives = $query->get();
 
         return $alternatives;
     }

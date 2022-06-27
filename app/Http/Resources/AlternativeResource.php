@@ -17,7 +17,6 @@ class AlternativeResource extends JsonResource
         return [
             'id' => $this->id,
             'description' => $this->description,
-            'question_id' => $this->question_id,
         ];
     }
 }

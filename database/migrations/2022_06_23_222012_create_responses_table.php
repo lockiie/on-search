@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('comment')->nullable(true);
+            $table->text('comment')->nullable(true);
 
             $table->unsignedBigInteger('alternative_id')->nullable(false);
             $table->foreign('alternative_id')->references('id')->on('alternatives');
@@ -24,10 +24,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable(false);
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->unsignedBigInteger('father_id')->nullable(true);
-            $table->foreign('father_id')->references('id')->on('responses');
+            $table->unsignedBigInteger('question_id')->nullable(false);
+            $table->foreign('question_id')->references('id')->on('questions');
 
-            $table->unique(["alternative_id", "user_id"], 'response_user_alternative_uk');
+            $table->unique(["question_id", "user_id"], 'response_question_user_uk');
         });
     }
 

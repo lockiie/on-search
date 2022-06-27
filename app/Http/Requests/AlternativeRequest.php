@@ -25,7 +25,6 @@ class AlternativeRequest extends FormRequest
     {
         return [
             'description' => 'required',
-            'question_id' => 'required',
         ];
     }
 
@@ -38,7 +37,6 @@ class AlternativeRequest extends FormRequest
     {
         return [
             'description.required' => 'Informe a descrição da resposta.',
-            'question_id.required' => 'Informe o ID da pergunta.',
         ];
     }
 

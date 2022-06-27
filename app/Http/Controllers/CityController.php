@@ -22,7 +22,7 @@ class CityController extends Controller
         if ($request->has('name')) {
             $query->where('name', 'LIKE', '%' . $request->name . '%');
         }
-        $cities = $query->paginate(25);
+        $cities = $query->get();
 
         return $cities;
 

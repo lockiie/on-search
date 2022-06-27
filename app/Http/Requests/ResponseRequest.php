@@ -26,6 +26,7 @@ class ResponseRequest extends FormRequest
         return [
             'alternative_id' => 'required',
             'user_id' => 'required',
+            'question_id' => 'required',
             'comment'=> '',
         ];
     }
@@ -39,6 +40,7 @@ class ResponseRequest extends FormRequest
         return [
             'alternative_id.required' => 'Selecione a alternativa.',
             'user_id.required' => 'O usuário é requerido.',
+            'question_id.required' => 'Informe o ID da pergunta.',
         ];
     }
 
