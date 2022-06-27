@@ -2,14 +2,14 @@
 
 API para o hackathon
 
-### Arquivo de inicialização
+### Inicialização
 
 ```shell
 Criar esquema no banco de dados chamado hackathon3
 Rodar o SQL com o nome sql.SQL
 ```
 
-### Aplicativo de configuração
+### SCRIPTS de configuração
 
 ```shell
 composer install
