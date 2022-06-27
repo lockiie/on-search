@@ -56,7 +56,7 @@ GET/ID http://localhost:8000/api/questions
 Alternativas
 GET http://localhost:8000/api/alternatives
 
-Responses
+Respostas
 POST http://localhost:8000/api/responses
 GET http://localhost:8000/api/responses?user_id&question_id
 PUT/ID http://localhost:8000/api/responses
